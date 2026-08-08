@@ -18,7 +18,20 @@ export function isSafeUrl(u) {
     const url = new URL(u);
     if (url.protocol !== 'http:' && url.protocol !== 'https:') return false;
     const h = url.hostname.toLowerCase();
+    // IPv6 literal (URL keeps the brackets). Block loopback (::1), unspecified
+    // (::), link-local (fe80::/10), unique-local (fc00::/7) and any IPv4-mapped
+    // address (::ffff:.../96), which can smuggle a private v4 in v6 clothing.
+    if (h.startsWith('[')) {
+      const v6 = h.slice(1, -1);
+      if (v6 === '::1' || v6 === '::') return false;
+      if (/^fe[89ab][0-9a-f]:/.test(v6)) return false;
+      if (/^f[cd][0-9a-f][0-9a-f]:/.test(v6)) return false;
+      if (/^::ffff:/i.test(v6)) return false;
+      return true;
+    }
     if (h === 'localhost' || h.endsWith('.local') || h.endsWith('.internal')) return false;
+    // Integer, hex and octal IPv4 are normalized to dotted-decimal by URL, so
+    // these dotted-form checks catch every notation.
     if (/^(127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(h)) return false;
     if (/^172\.(1[6-9]|2\d|3[01])\./.test(h)) return false;
     return true;
@@ -32,6 +45,7 @@ const looksHtml = (contentType, text) =>
   /text\/html/i.test(contentType || '') || /^\s*(<!doctype|<html|<head)/i.test(text || '');
 
 async function readCapped(res, max, deadlineMs = 6000) {
+  if (!res.body) return { text: '', bytes: 0, truncated: false };
   const reader = res.body.getReader();
   const dec = new TextDecoder('utf-8', { fatal: false });
   let out = '';
@@ -169,19 +183,19 @@ function buildFindings({ robots, llms, bots, answer, training, blockedAnswer, al
   }
 
   const gpt = by('GPTBot'), oaiSearch = by('OAI-SearchBot');
-  if (gpt.access === 'blocked' && oaiSearch.access === 'blocked') {
+  if (gpt?.access === 'blocked' && oaiSearch?.access === 'blocked') {
     push('warn', 'You block GPTBot and OAI-SearchBot together. GPTBot alone stops training; OAI-SearchBot is what puts you in ChatGPT search. Blocking both trades away visibility you probably wanted to keep.');
-  } else if (gpt.access === 'blocked' && oaiSearch.access !== 'blocked') {
+  } else if (gpt?.access === 'blocked' && oaiSearch?.access !== 'blocked') {
     push('good', 'You block GPTBot (training) but allow OAI-SearchBot (ChatGPT search). That is the split most publishers aim for.');
   }
 
   const ge = by('Google-Extended');
-  if (ge.access === 'blocked') {
+  if (ge?.access === 'blocked') {
     push('good', 'You block Google-Extended, so your content is kept out of Gemini training. Worth knowing: Google states this does not affect your inclusion or ranking in Google Search.');
   }
 
   const ax = by('Applebot'), axe = by('Applebot-Extended');
-  if (axe.access === 'blocked' && ax.access === 'blocked') {
+  if (axe?.access === 'blocked' && ax?.access === 'blocked') {
     push('warn', 'You block both Applebot and Applebot-Extended. Applebot-Extended alone opts you out of Apple model training; blocking Applebot as well removes you from Siri and Spotlight Suggestions.');
   }
 

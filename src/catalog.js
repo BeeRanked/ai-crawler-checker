@@ -16,9 +16,9 @@
 
 export const CATALOG = [
   // OpenAI
-  { id: 'OAI-SearchBot', company: 'OpenAI', group: 'answer', what: 'Surfaces your site in ChatGPT search results.', source: 'https://platform.openai.com/docs/bots' },
-  { id: 'ChatGPT-User', company: 'OpenAI', group: 'answer', what: 'Visits a page when a ChatGPT user asks about it.', source: 'https://platform.openai.com/docs/bots' },
-  { id: 'GPTBot', company: 'OpenAI', group: 'training', what: 'Crawls content that may be used to train OpenAI foundation models.', source: 'https://platform.openai.com/docs/bots' },
+  { id: 'OAI-SearchBot', company: 'OpenAI', group: 'answer', what: 'Surfaces your site in ChatGPT search results.', source: 'https://developers.openai.com/api/docs/bots' },
+  { id: 'ChatGPT-User', company: 'OpenAI', group: 'answer', what: 'Visits a page when a ChatGPT user asks about it.', source: 'https://developers.openai.com/api/docs/bots' },
+  { id: 'GPTBot', company: 'OpenAI', group: 'training', what: 'Crawls content that may be used to train OpenAI foundation models.', source: 'https://developers.openai.com/api/docs/bots' },
   // Anthropic
   { id: 'Claude-SearchBot', company: 'Anthropic', group: 'answer', what: 'Indexes pages to improve Claude search results.', source: 'https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler' },
   { id: 'Claude-User', company: 'Anthropic', group: 'answer', what: 'Visits a page when a Claude user asks about it.', source: 'https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler' },

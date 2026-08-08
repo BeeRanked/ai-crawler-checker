@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { parseRobots, ruleMatches, groupFor, verdict } from '../src/robots.js';
-import { checkCrawlers } from '../src/check.js';
+import { checkCrawlers, isSafeUrl } from '../src/check.js';
 import { CATALOG } from '../src/catalog.js';
 
 test('parseRobots groups agents and collects sitemaps', () => {
@@ -89,4 +89,15 @@ test('checkCrawlers with an injected fetch produces verdicts and findings', asyn
 test('isSafeUrl-style rejection: private hosts throw', async () => {
   await assert.rejects(() => checkCrawlers('http://localhost:3000', { fetch: async () => new Response('') }));
   await assert.rejects(() => checkCrawlers('http://192.168.1.1', { fetch: async () => new Response('') }));
+});
+
+test('isSafeUrl blocks IPv6 and non-dotted IPv4 private forms, allows global v6', () => {
+  assert.equal(isSafeUrl('http://[::1]/'), false);          // IPv6 loopback
+  assert.equal(isSafeUrl('http://[fd00::1]/'), false);      // ULA
+  assert.equal(isSafeUrl('http://[fe80::1]/'), false);      // link-local
+  assert.equal(isSafeUrl('http://[::ffff:127.0.0.1]/'), false); // IPv4-mapped loopback
+  assert.equal(isSafeUrl('http://2130706433/'), false);     // integer IPv4 -> 127.0.0.1
+  assert.equal(isSafeUrl('http://0x7f000001/'), false);     // hex IPv4 -> 127.0.0.1
+  assert.equal(isSafeUrl('http://[2606:4700:4700::1111]/'), true); // public v6
+  assert.equal(isSafeUrl('https://example.com/'), true);
 });
