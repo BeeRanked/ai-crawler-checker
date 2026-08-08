@@ -1,0 +1,42 @@
+{
+  "name": "ai-crawler-checker",
+  "version": "0.1.0",
+  "description": "See which AI crawlers a site's robots.txt allows or blocks, split into crawlers that affect AI answers and crawlers that affect model training.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./catalog": "./src/catalog.js",
+    "./robots": "./src/robots.js"
+  },
+  "bin": {
+    "ai-crawler-checker": "bin/cli.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "worker.js"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "seo",
+    "robots.txt",
+    "ai",
+    "crawlers",
+    "gptbot",
+    "llms.txt",
+    "aeo",
+    "generative-engine-optimization"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BeeRanked/ai-crawler-checker.git"
+  },
+  "homepage": "https://beeranked.online/ai-crawler-checker"
+}
