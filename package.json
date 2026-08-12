@@ -1,5 +1,5 @@
 {
-  "name": "ai-crawler-checker",
+  "name": "@beeranked/ai-crawler-checker",
   "version": "0.1.0",
   "description": "See which AI crawlers a site's robots.txt allows or blocks, split into crawlers that affect AI answers and crawlers that affect model training.",
   "type": "module",
@@ -39,5 +39,8 @@
     "type": "git",
     "url": "git+https://github.com/BeeRanked/ai-crawler-checker.git"
   },
-  "homepage": "https://beeranked.online/ai-crawler-checker"
+  "homepage": "https://beeranked.online/ai-crawler-checker",
+  "publishConfig": {
+    "access": "public"
+  }
 }

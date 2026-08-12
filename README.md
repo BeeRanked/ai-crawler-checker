@@ -24,9 +24,9 @@ each entry links to that operator's own page as its source.
 ## Install
 
 ```bash
-npm install ai-crawler-checker
+npm install @beeranked/ai-crawler-checker
 # or run it once without installing:
-npx ai-crawler-checker example.com
+npx @beeranked/ai-crawler-checker example.com
 ```
 
 Requires Node 18 or newer (uses the built-in `fetch`).
@@ -41,7 +41,7 @@ ai-crawler-checker https://example.com --json
 ## Library
 
 ```js
-import { checkCrawlers } from 'ai-crawler-checker';
+import { checkCrawlers } from '@beeranked/ai-crawler-checker';
 
 const report = await checkCrawlers('example.com');
 console.log(report.summary);   // { answerVisible, answerTotal, trainingAllowed, trainingTotal }
@@ -52,7 +52,7 @@ console.log(report.bots);      // per-crawler verdicts with sources
 On Node versions without a global `fetch`, pass one:
 
 ```js
-import { checkCrawlers } from 'ai-crawler-checker';
+import { checkCrawlers } from '@beeranked/ai-crawler-checker';
 import { fetch } from 'undici';
 await checkCrawlers('example.com', { fetch });
 ```
@@ -60,7 +60,7 @@ await checkCrawlers('example.com', { fetch });
 The robots.txt primitives are exported too, if you only want the parser:
 
 ```js
-import { parseRobots, groupFor, verdict } from 'ai-crawler-checker/robots';
+import { parseRobots, groupFor, verdict } from '@beeranked/ai-crawler-checker/robots';
 ```
 
 ## Self-host as an HTTP endpoint
