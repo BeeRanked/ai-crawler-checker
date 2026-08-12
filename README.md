@@ -73,6 +73,9 @@ cp wrangler.toml.example wrangler.toml
 npx wrangler deploy
 ```
 
+Current wrangler (v4) needs Node 22 or newer; on Node 18 or 20, deploy with
+`npx wrangler@3 deploy` instead.
+
 Then `POST /` with `{ "url": "https://example.com" }`, or `GET /?url=...`, and
 you get the full JSON report. It runs comfortably on the Cloudflare Workers free
 tier.
