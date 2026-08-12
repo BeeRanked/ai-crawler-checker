@@ -1,6 +1,6 @@
 {
   "name": "@beeranked/ai-crawler-checker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "See which AI crawlers a site's robots.txt allows or blocks, split into crawlers that affect AI answers and crawlers that affect model training.",
   "type": "module",
   "main": "src/index.js",
